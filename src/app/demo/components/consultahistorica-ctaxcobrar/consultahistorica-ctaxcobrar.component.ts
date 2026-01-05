@@ -182,7 +182,7 @@ export class ConsultahistoricaCtaxcobrarComponent implements OnInit {
    */
   abrirModalSustentos(doc: TraeHistoricoCtaxCobra): void {
     // Validar que el documento tenga estado Cobrado o Pagado
-    if (doc.estadopago !== 'Cobrado' && doc.estadopago !== 'Pagado') {
+    if (doc.estadopago !== 'Cobrado' && doc.estadopago !== 'Pagado' && doc.estadopago!=='Parcial') {
       verMensajeInformativo(
         this.messageService,
         'warn',
@@ -295,7 +295,7 @@ export class ConsultahistoricaCtaxcobrarComponent implements OnInit {
    * Determina si un registro tiene sustentos disponibles
    */
   tieneSustentosDisponibles(doc: TraeHistoricoCtaxCobra): boolean {
-    return (doc.estadopago === 'Cobrado' || doc.estadopago === 'Pagado') 
+    return (doc.estadopago === 'Cobrado' || doc.estadopago === 'Pagado' || doc.estadopago==='Parcial') 
            && !!doc.numeroRegCobro 
            && doc.numeroRegCobro.trim() !== '';
   }

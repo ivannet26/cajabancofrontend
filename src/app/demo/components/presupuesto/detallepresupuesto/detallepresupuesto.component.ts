@@ -951,16 +951,20 @@ export class DetallepresupuestoComponent implements OnInit {
         console.log("codigo banco cod medio pago");
         console.log(this.bancoCodMedioPago);
         if(this.bancoCodMedioPago == '01'){
-            
+            //banco interbank
             this.generaArchivoInterbankCab();
             this.generaArchivoInterbankDet();
         }else if(this.bancoCodMedioPago == '02'){
+            //banco banbif , codigo implementado pero con observaciones del resultado
             this.generaArchivoBIFCab();
             //this.generaArchivoBIFDet();
-        }else if(this.bancoCodMedioPago == '02'){
-
+        }else if(this.bancoCodMedioPago == '03'){
+            //banco BCP  falta implementa codigo en los metodo
             this.generaArchivoBCPCab();
             this.generaArchivoBCPDet();
+        }else if(this.bancoCodMedioPago == '04'){
+            //banco BBVA falta definir metodos  y codificacion  para el archivo 
+            
         }
     }
     generaArchivoBIFCab(){

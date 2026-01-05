@@ -144,7 +144,7 @@ obtenerFacturaPendiente():void{
 
                      this.ayudapago = data;
                      console.log("data de tra er documento pendiente");
-                        console.log(this.ayudapago);
+                        // console.log(this.ayudapago);
                        this.generarPDFPendiente(this.ayudapago);
                     //this.loading = false;
                     if (data.length === 0) {
