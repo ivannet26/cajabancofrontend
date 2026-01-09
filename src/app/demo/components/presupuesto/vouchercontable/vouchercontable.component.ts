@@ -389,6 +389,7 @@ export class VouchercontableComponent implements OnInit {
                       columns: [
                         {
                             width: 'auto',
+                            align: 'left',
                             text: [
                                 { text: 'Libro de NroVoucher:  ', style: 'label' },
                                 { text: this.libro, style: 'value' },
@@ -397,7 +398,7 @@ export class VouchercontableComponent implements OnInit {
                         },
                        
                     ],
-                    margin: [10, 0, 0, 40],
+                    margin: [0, 0, 0, 6],
 
                 },
 
