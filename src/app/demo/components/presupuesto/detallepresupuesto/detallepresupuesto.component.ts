@@ -515,10 +515,12 @@ export class DetallepresupuestoComponent implements OnInit {
   
         detalle.ban02NetoSoles = netoSoles;
     }
+    
     exportarPDFPendiente(){
 
         
     }
+
     exportarPDF() {
         if (!this.DetallePago || this.DetallePago.length === 0) {
             // verMensajeInformativo(this.messageService,'warn', 'Advertencia', 'No hay datos para exportar');

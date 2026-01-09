@@ -18,7 +18,9 @@ import { PresupuestoService } from 'src/app/demo/service/presupuesto.service';
 import { BreadcrumbService } from 'src/app/demo/service/breadcrumb.service';
 import { ActualizarVouchercontableComponent } from "../actualizar-vouchercontable/actualizar-vouchercontable.component";
 import { RegContableDetService } from 'src/app/demo/service/reg-contable-det.service';
-import { verMensajeInformativo } from 'src/app/demo/components/utilities/funciones_utilitarias';
+import { verMensajeInformativo,formatDateWithTime } from 'src/app/demo/components/utilities/funciones_utilitarias';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { group } from '@angular/animations';
 
 @Component({
@@ -112,6 +114,9 @@ export class VouchercontableComponent implements OnInit {
         });
 
         this.cargarDatos();
+
+        // inicializar el pdfmake
+        (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
     }
 
     cargarDatos() {
@@ -264,9 +269,11 @@ export class VouchercontableComponent implements OnInit {
     }
 
     generarPDF(){
+
         // Definimos las cabeceras
         const headers = [
             [
+                /** 
                 { text: 'Orden', rowSpan: 2, style: 'tableHeader' },
                 { text: 'Tipo cuenta', rowSpan: 2, style: 'tableHeader' },
                 { text: 'Cuenta desc.', rowSpan: 2, style: 'tableHeader' },
@@ -282,19 +289,209 @@ export class VouchercontableComponent implements OnInit {
                 { text: 'Cargo', rowSpan: 2, style: 'tableHeader' }, 
                 { text: 'Abono', rowSpan: 2, style: 'tableHeader' }, 
                 { text: 'Debe', rowSpan: 2, style: 'tableHeader' }, 
-            
-            
+
+                */
+
+                { text: 'Tipo', style: 'tableHeader' },
+                { text: 'Cuenta', style: 'tableHeader' },
+                { text: 'Cuenta Desc', style: 'tableHeader' },
+                { text: 'Cuenta Cte. Cod.', style: 'tableHeader' },
+                { text: 'Cuenta Cte. Desc.', style: 'tableHeader' },
+                { text: 'Tipo Doc. Desc.', style: 'tableHeader' },
+                { text: 'Num. Doc.', style: 'tableHeader' },
+                { text: 'Fecha Emisión', style: 'tableHeader' },
+                { text: 'Fecha Vencimiento', style: 'tableHeader' },
+                { text: 'Tipo Cambio', style: 'tableHeader' },
+                { text: 'Debe', style: 'tableHeader' },
+                { text: 'Haber', style: 'tableHeader' },
+                { text: 'Cargo', style: 'tableHeader' },
+                { text: 'Abono', style: 'tableHeader' },
             ],
             
         ];
-        const body =[...headers];
 
-        const groupedData = {};
-        this.voucherContableCabecera.forEach((item)=>{
+        const formatNumber=(num)=>{
+            const numero = Number(num);
+            if(isNaN(numero)) return '0.00';
+            return numero.toLocaleString('es-PE', {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            });
 
-            // body.push([item.]);
+        };
+
+        const formatCell=(value:any)=>({
+            text:formatNumber(value),
+            alignment:'right'
         });
 
+        const body:any[] = [...headers];
+
+        let totalTipoCambio = 0;
+        let totalDebe = 0;
+        let totalHaber = 0;
+        let totalCargo = 0;
+        let totalAbono = 0;
+
+        const convertirNumero = (valor:any) => {
+            const numero = Number(valor);
+            return isNaN(numero) ? 0 : numero;
+        };
+
+        //const groupedData = {};
+
+        this.voucherContableDetalle.forEach((item)=>{
+            body.push([
+                item.amarre ?? '',
+                item.cuenta ?? '',
+                item.ctaCbleDesc ?? '',
+                item.ctactecod ?? '',
+                item.ctaCteDesc ?? '',
+                item.tipDocDes ?? '',
+                item.numDoc ?? '',
+                item.fechaDoc ?? '',
+                item.fechaVencimiento ?? '',
+                formatCell(item.tipoCambio),
+                formatCell(item.importeDebe),
+                formatCell(item.importeHaber),
+                formatCell(item.importeDebeEquivalencia),
+                formatCell(item.importeHaberEquivalencia),
+            ]);
+
+            totalTipoCambio += convertirNumero(item.tipoCambio);
+            totalDebe += convertirNumero(item.importeDebe);
+            totalHaber += convertirNumero(item.importeHaber);
+            totalCargo += convertirNumero(item.importeDebeEquivalencia)
+            totalAbono += convertirNumero(item.importeHaberEquivalencia);
+        });
+
+        body.push([
+                { text: 'Sumas', style: 'total', colSpan: 9, alignment: 'right' },
+                '','','','','','','','',
+
+                { text: formatNumber(totalTipoCambio), style: 'total', alignment: 'center' },
+                { text: formatNumber(totalDebe), style: 'total', alignment: 'center' },
+                { text: formatNumber(totalHaber), style: 'total', alignment: 'center' },
+                { text: formatNumber(totalCargo), style: 'total', alignment: 'center' },
+                { text: formatNumber(totalAbono), style: 'total', alignment: 'center' },
+            ]);
+        
+        // Estructura y estilos del pdf
+        const docDefinition = {
+            pageOrientation:'landscape',
+            pageMargins:[15, 15, 15, 15],
+            content:[
+
+                //titulo
+                {text: 'Voucher Contable Detalle', style:'header'},
+                
+                {
+                      columns: [
+                        {
+                            width: 'auto',
+                            text: [
+                                { text: 'Libro de NroVoucher:  ', style: 'label' },
+                                { text: this.libro, style: 'value' },
+                            ],
+                            margin: [0, 0, 0, 0],
+                        },
+                       
+                    ],
+                    margin: [10, 0, 0, 40],
+
+                },
+
+                //table
+                {
+                    table:{
+                        headerRows:1,
+                        widths:[
+                            25,35,95,45,95,45,55,60,35,40,40,40,40,40
+                        ],
+                        body:body,
+                        alignment: 'center',
+                    },
+
+                    layout:{
+                        hLineWidth: function (i, node) {
+                            return i === 0 ||
+                                i === 1 ||
+                                i === 2 ||
+                                i === node.table.body.length
+                                ? 1
+                                : 0.3;
+                        },
+                        vLineWidth: function (i, node) {
+                            return 0.3;
+                        },
+                        hLineColor: function (i, node) {
+                            return i === 0 ||
+                                i === 1 ||
+                                i === 2 ||
+                                i === node.table.body.length
+                                ? 'black'
+                                : '#aaa';
+                        },
+                        vLineColor: function (i, node) {
+                            return '#aaa';
+                        },
+                        paddingTop: function (i) {
+                            return 4;
+                        },
+                        paddingBottom: function (i) {
+                            return 4;
+                        },
+                    },
+                },
+            ],
+
+            styles: {
+                header: {
+                    fontSize: 15,
+                    bold: true,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 11],
+                },
+                label: {
+                    bold: true,
+                    fontSize: 8,
+                },
+                value: {
+                    fontSize: 8,
+                },
+                tableHeader: {
+                    bold: true,
+                    fontSize: 7,
+                    alignment: 'center',
+                    fillColor: '#eeeeee',
+                    margin: [0, 5],
+                },
+                subtotal: {
+                    bold: true,
+                    fontSize: 6,
+                    alignment: 'right',
+                },
+                total: {
+                    bold: true,
+                    fontSize: 6,
+                    alignment: 'right',
+                },
+            },
+
+            defaultStyle: {
+                fontSize: 6,
+                alignment: 'left',
+            },
+        };
+
+        const fileName = 'VoucherContableDetalle' +
+                 '_' +
+                 formatDateWithTime((this.fechahoy = new Date())) +
+                 '.pdf';
+
+        pdfMake.createPdf(docDefinition).open({
+                    filename: fileName
+        });
 
     }
 }
