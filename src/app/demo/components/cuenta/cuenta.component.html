@@ -12,7 +12,7 @@
         </div>
         <!-- Botón para agregar nueva rowData bancaria -->
         <div class="flex align-items-center mb-3">
-            <p-button (click)="showAddRow()" icon="pi pi-plus" label="Nuevo" class="mr-3"
+            <p-button (click)="showAddRow()" icon="pi pi-plus" label="Nuevo"  styleClass="p-button-sm"
                 [disabled]="isEditingAnyRow"></p-button>
         </div>
 
@@ -22,11 +22,11 @@
             [paginator]="true"
             [rows]="5"
             [rowsPerPageOptions]="[5, 10, 20]"
-            selectionMode="single"
             editMode="row"
-            [tableStyle]="{ 'width': '100%', 'border': '0px solid black' }">
+            [tableStyle]="{ 'width': '100%', 'border': '0px solid black' }"
+        >
             <ng-template pTemplate="header">
-                <tr>
+                <tr >
                     <th *ngIf="ocultarColumna" style="width: 120px;">IdEmpresa</th>
                     <th *ngIf="ocultarColumna" style="width: 120px;">IdBanco</th>
                     <th *ngIf="ocultarColumna" style="width: 120px;">Id</th>
@@ -42,7 +42,7 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-ri="rowIndex" let-editing="editing">
-                <tr [pEditableRow]="rowData">
+                <tr [pEditableRow]="rowData" >
                     <td *ngIf="ocultarColumna" style="width: 120px;">{{ rowData.idEmpresa }}</td>
                     <td *ngIf="ocultarColumna" style="width: 120px;">{{ rowData.idBanco }}</td>
                     <td *ngIf="ocultarColumna" style="width: 120px;">{{ rowData.id }}</td>
@@ -112,26 +112,26 @@
                             <!-- Editar -->
                             <button *ngIf="editingRowIndex !== ri" pButton pInitEditableRow
                                 (click)="onRowEditInit(rowData, ri)" icon="pi pi-pencil" tooltipPosition="top"
-                                [disabled]="isNew || isEditingAnyRow" class="p-button-rounded p-button-text p-button-sm"
+                                [disabled]="isNew || isEditingAnyRow" class="p-button-rounded p-button-text p-button-smm"
                                 pTooltip="Editar"></button>
 
                             <!-- Guardar -->
                             <button *ngIf="editingRowIndex === ri" pButton pSaveEditableRow
                                 (click)="onRowEditSave(rowData, ri)" icon="pi pi-check" tooltipPosition="top"
-                                class="p-button-rounded p-button-text p-button-sm p-button-success"
+                                class="p-button-rounded p-button-text p-button-smm p-button-success"
                                 pTooltip="Guardar"></button>
 
                             <!-- Cancelar -->
                             <button *ngIf="editingRowIndex === ri" pButton (click)="onRowEditCancel(ri)"
                                 icon="pi pi-times" tooltipPosition="top"
-                                class="p-button-rounded p-button-text p-button-sm p-button-danger"
+                                class="p-button-rounded p-button-text p-button-smm p-button-danger"
                                 pTooltip="Cancelar"></button>
 
                             <!-- Eliminar -->
                             <button *ngIf="editingRowIndex !== ri" pButton type="button" (click)="onDelete(rowData, ri)"
                                 icon="pi pi-trash" pTooltip="Eliminar" tooltipPosition="top"
                                 [disabled]="isNew || isEditingAnyRow"
-                                class="p-button-rounded p-button-text p-button-sm p-button-danger"></button>
+                                class="p-button-rounded p-button-text p-button-smm p-button-danger"></button>
                         </div>
                     </td>
                 </tr>
@@ -164,9 +164,9 @@
                     <!-- Botones para guardar o cancelar la acción -->
                     <td style="width: 122px;">
                         <div class="flex gap-2 justify-content-center">
-                            <p-button icon="pi pi-check" styleClass="p-button-success p-button-sm" [text]="true" (onClick)="onSave()"
+                            <p-button icon="pi pi-check" styleClass="p-button-success p-button-smm" [text]="true" (onClick)="onSave()"
                                 pTooltip="Guardar"></p-button>
-                            <p-button icon="pi pi-times" styleClass="p-button-danger p-button-sm" [text]="true" (onClick)="onCancel()"
+                            <p-button icon="pi pi-times" styleClass="p-button-danger p-button-smm" [text]="true" (onClick)="onCancel()"
                                 pTooltip="Cancelar"></p-button>
                         </div>
                     </td>

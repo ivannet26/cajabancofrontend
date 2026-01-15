@@ -49,6 +49,7 @@ rowsPerPage : number = 10;
  anioPeriodo: string = '';
  mesPeriodo:string = '';
 loading: boolean = false;
+selectedOption: DetraccionMasiva[] = []; // row selection multiple
 //item para breadcrumb
 items: any[] = [];
 

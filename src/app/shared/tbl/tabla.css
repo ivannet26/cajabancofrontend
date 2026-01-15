@@ -1,0 +1,77 @@
+
+/*Estilos base para la tablas*/
+.p-datatable table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    table-layout: auto !important; /* Permite ajustar columnas al contenido */
+    
+    /*PRUEBA -->outline: 6px solid red !important;*/
+}
+
+/*Cabecera*/
+.p-datatable .p-datatable-thead > tr > th {
+    padding: 6px; /* Espacio interno compacto */
+    font-size: 13px; /* Tamaño compacto */
+    text-align: center;
+  
+    background: #f9f9f9;
+    color: black;
+    border-bottom: 2px solid #ddd; /* Solo líneas horizontales */
+    
+    /*PRUEBA -->background: purple !important;*/
+}
+
+
+/*Celdas del cuerpo de la tabla*/
+.p-datatable td {
+    padding: 4px !important; /* Reduce el espacio interno de las celdas */
+    font-size: 12px !important; /* Tamaño compacto */
+    text-align: center !important; /* Centra el contenido */
+    word-wrap: break-word !important; /* Permite ajustar texto largo */
+    border: 1px solid #ddd !important; /* Líneas horizontales y verticales */
+
+    /*PRUEBA -->background-color: yellowgreen;*/
+}
+
+/*Hover*/
+.p-datatable .p-datatable-tbody > tr:hover {
+    background-color: #f5f5f5 !important;  /*Resalta la fila al pasar el cursor */
+    /*PRUEBA -->background: black !important ;*/
+}
+
+/* Ajustes generales del scroll */
+.p-datatable-wrapper {
+    max-height: 400px !important;
+    overflow: auto !important; /* Habilita scroll */
+
+    /*PRUEBA -->outline:3px solid blue;*/
+}
+
+/*Filtros*/
+.p-datatable .p-column-filter {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-size: 10px !important;/* Tamaño de letra más pequeño */
+    padding: 2px; /* Ajusta el padding */
+    line-height: 1 !important;/* Más compacto */
+    margin:auto !important;
+
+    /*PRUEBA --> padding: 20px !important;*/
+}
+
+/*Footer*/
+.p-datatable .p-datatable-tfoot > tr > td {
+    white-space: nowrap;
+    width: auto !important;
+    min-width: fit-content;
+    padding: 3px;
+    vertical-align: middle;
+    font-size: 12px;
+}
+
+/*Rows selected*/
+.p-datatable .p-datatable-tbody>tr.p-highlight>td{
+    background-color: #8abff1;
+    /*PRUEBA --> background-color: pink;*/
+}

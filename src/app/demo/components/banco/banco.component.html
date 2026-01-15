@@ -18,6 +18,8 @@
             </div>
         </div>
 
+        <p-contextMenu #cm [model]="menuItems" (onHide)="selectedOption = null" />
+
         <!-- Tabla Principal -->
         <p-table [value]="bancoList"
                  dataKey="ban01IdBanco"
@@ -25,7 +27,10 @@
                  [paginator]="true"
                  [rows]="rowsPerPage"
                  responsiveLayout="scroll"
-                 styleClass="p-datatable-sm">
+                 styleClass="p-datatable-sm"
+                 [(contextMenuSelection)]="selectedOption" 
+                 [contextMenu]="cm"
+                 styleClass="tbl p-datatable-sm">
             <!-- Cabecera de Tabla -->
             <ng-template pTemplate="header">
                 <tr>
@@ -38,7 +43,7 @@
 
             <!-- Cuerpo de Tabla -->
             <ng-template pTemplate="body" let-banco let-ri="rowIndex" let-editing="editing">
-                <tr [pEditableRow]="banco">
+                <tr [pEditableRow]="banco" [pContextMenuRow]="banco">
                     <!-- Columna ID -->
                     <td style="text-align: left;">
                         <p-cellEditor>
@@ -88,7 +93,7 @@
                                     icon="pi pi-pencil"
                                     pTooltip="Editar Banco"
                                     [disabled]="isNew || isEditingAnyRow"
-                                    class="p-button-rounded p-button-text p-button-sm"
+                                    class="p-button-rounded p-button-text p-button-smm"
                                     ></button>
 
                             <!-- Botón Guardar -->
@@ -97,7 +102,7 @@
                                     (click)="onRowEditSave(banco)"
                                     icon="pi pi-check"
                                     pTooltip="Guardar"
-                                    class="p-button-rounded p-button-text p-button-sm p-button-success"></button>
+                                    class="p-button-rounded p-button-text p-button-smm p-button-success"></button>
 
                             <!-- Botón Cancelar -->
                             <button *ngIf="editing" pButton
@@ -105,7 +110,7 @@
                                     (click)="onRowEditCancel(banco, ri)"
                                     icon="pi pi-times"
                                     pTooltip="Cancelar"
-                                    class="p-button-rounded p-button-text p-button-sm p-button-danger"></button>
+                                    class="p-button-rounded p-button-text p-button-smm p-button-danger"></button>
 
                             <!-- Botón Eliminar -->
                             <button *ngIf="!editing" pButton
@@ -114,7 +119,7 @@
                                     icon="pi pi-trash"
                                     pTooltip="Borrar Banco"
                                     [disabled]="isNew || isEditingAnyRow"
-                                    class="p-button-rounded p-button-text p-button-sm p-button-danger"></button>
+                                    class="p-button-rounded p-button-text p-button-smm p-button-danger"></button>
                             
                             <!-- Botón Ver Cuentas (Deshabilitado) -->
                             <!--<button *ngIf="!editing" pButton 
@@ -168,9 +173,9 @@
                             <div class="col-2" style="width: 20%">
                                 <div class="flex gap-2 justify-content-center">
 
-                                    <p-button icon="pi pi-check" styleClass="p-button-success p-button-sm" [text]="true"
+                                    <p-button icon="pi pi-check" styleClass="p-button-success p-button-smm" [text]="true"
                                             (onClick)="onSave()" pTooltip="Guardar"></p-button>
-                                    <p-button icon="pi pi-times" styleClass="p-button-danger p-button-sm" [text]="true"
+                                    <p-button icon="pi pi-times" styleClass="p-button-danger p-button-smm" [text]="true"
                                             (onClick)="onCancel()" pTooltip="Cancelar"></p-button>
                                 </div>
                             </div>

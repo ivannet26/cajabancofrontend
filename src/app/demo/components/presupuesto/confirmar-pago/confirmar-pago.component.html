@@ -27,7 +27,7 @@
                     <div class="flex gap-2">
                         <p-fileUpload #fu mode="basic" chooseLabel="Adjuntar" chooseIcon="pi pi-upload"
                             accept="image/*,application/pdf" [auto]="true" (onSelect)="onFileSelected($event)"
-                            styleClass="p-button-primary" [disabled]="cargandoArchivo">
+                            styleClass="p-button-sm" [disabled]="cargandoArchivo">
                         </p-fileUpload>
                         <button *ngIf="rutaComprobante && !cargandoArchivo" pButton icon="pi pi-times"
                             class="p-button-danger p-button-outlined" (click)="limpiarArchivo()">
@@ -60,9 +60,9 @@
         </div>
         <p-footer>
             <div class="flex justify-content-center gap-8">
-                <p-button label="Aceptar" (onClick)="guardarConfirmacion()" styleClass="p-button-primary"
+                <p-button label="Aceptar" (onClick)="guardarConfirmacion()" styleClass="p-button-sm"
                     [disabled]="cargandoArchivo"></p-button>
-                <p-button label="Cancelar" (onClick)="cancelar()" styleClass="p-button-danger"
+                <p-button label="Cancelar" (onClick)="cancelar()" styleClass="p-button-red"
                     [disabled]="cargandoArchivo"></p-button>
             </div>
         </p-footer>

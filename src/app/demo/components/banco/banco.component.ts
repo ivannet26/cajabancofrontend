@@ -17,12 +17,15 @@ import { Router } from '@angular/router';
 import { GlobalService } from '../../service/global.service';
 import { verMensajeInformativo } from '../utilities/funciones_utilitarias';
 import { DropdownModule } from 'primeng/dropdown';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { MenuItem } from 'primeng/api';
+
 
 @Component({
     selector: 'app-banco',
     standalone: true,
     imports: [ToastModule, TableModule, ReactiveFormsModule, CommonModule, ButtonModule, 
-        CardModule, InputTextModule, PanelModule, BreadcrumbModule, ConfirmDialogModule, FormsModule, DropdownModule],
+        CardModule, InputTextModule, PanelModule, BreadcrumbModule, ConfirmDialogModule, FormsModule, DropdownModule,ContextMenuModule],
     templateUrl: './banco.component.html',
     styleUrl: './banco.component.css',
     providers: [MessageService, ConfirmationService]
@@ -41,6 +44,11 @@ export class BancoComponent implements OnInit {
     items: any[] = [];
     isEditingAnyRow: boolean = false;
     rowsPerPage: number = 10; // Numero de filas por página
+    selectedOption: Banco[] = []; // row selection multiple
+    menuItems:MenuItem[] = []; //context menu
+
+    unlockedOptions!: Banco[]; // filas normales
+    lockedOptions!: Banco[]; // filas congeladas
 
     constructor(private bancoService: BancoService, private fb: FormBuilder,
         private confirmationService: ConfirmationService,
@@ -59,9 +67,43 @@ export class BancoComponent implements OnInit {
         this.bS.currentBreadcrumbs$.subscribe(bc => {
             this.items = bc;
         })
+
+         this.menuItems = [
+            { 
+                label: 'Ver Cuenta Bancaria', 
+                icon: 'pi pi-fw pi-search', 
+                command: () => {
+                    if(this.selectedOption.length===0) return;
+                    const banco=this.selectedOption[0]; 
+                    this.verCuentas(banco);
+                } 
+            },
+
+            { 
+                label: 'Eliminar', 
+                icon: 'pi pi-fw pi-times', 
+                command: () => {
+                    if(this.selectedOption.length===0) return;
+                    
+                    this.selectedOption.forEach(banco=>{
+                        const index=this.bancoList.findIndex(
+                            b=>b.ban01IdBanco===banco.ban01IdBanco
+                        );
+
+                        if(index>=0){
+                            this.onDelete(banco,index);
+                        }
+                    });
+                } }
+        ];
+
         this.initForm()
         this.cargarBancos()
     }
+
+   
+    //toggleLock(banco:Banco, freeze:boolean, index:number){}
+
     // Función para navegar a las cuentas del banco seleccionado
     verCuentas(banco): void {
         // Primero, actualiza las migas de pan antes de navegar

@@ -23,6 +23,9 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { verMensajeInformativo } from 'src/app/demo/components/utilities/funciones_utilitarias';
 import { HttpResponse } from '@angular/common/http';
 import { ConfigService } from 'src/app/demo/service/config.service';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { MenuItem } from 'primeng/api';
+
 @Component({
     selector: 'app-cabecerapresupuesto',
     standalone: true,
@@ -44,6 +47,7 @@ import { ConfigService } from 'src/app/demo/service/config.service';
         ConfirmarPagoComponent,
         DialogModule,
         FileUploadModule,
+        ContextMenuModule
     ],
     templateUrl: './cabecerapresupuesto.component.html',
     styleUrl: './cabecerapresupuesto.component.css',
@@ -65,6 +69,9 @@ export class CabecerapresupuestoComponent implements OnInit {
     selectMedioPago: string | null = null;
     verConfirmarPago: boolean = false;
     rowsPerPage: number = 10; // Numero de filas por página
+    selectedOption: any | null = null; // row selection
+    menuItems:MenuItem[] = []; // menu
+    
     nuevoPresupuesto: insert_presupuesto = {
         ban01Empresa: '',
         ban01Numero: '',
@@ -163,6 +170,23 @@ export class CabecerapresupuestoComponent implements OnInit {
                 );
             }
         });
+
+        this.menuItems = [
+            { 
+                label: 'Ver Detalles', 
+                icon: 'pi pi-fw pi-search', 
+                command: () => {
+                    if(this.selectedOption) this.verDetalles(this.selectedOption);
+                } 
+            },
+
+            { 
+                label: 'Eliminar', 
+                icon: 'pi pi-fw pi-times', 
+                command: () => {
+                    if(!this.selectedOption) this.eliminarPago(this.selectedOption);
+                } }
+        ];
         this.cargarMedioPago();
     }
     cargarPresupuesto(empresa: string, anio: string, mes: string): void {

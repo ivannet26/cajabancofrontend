@@ -8,7 +8,7 @@
         <div class="search-bar">
             <input type="text" pInputText placeholder="" [(ngModel)]="textoBuscar" (keyup.enter)="buscar()"
                 class="mr-3 w-5" />
-            <p-button pButton type="button" label="Buscar" icon="pi pi-search" class="p-ml-2" style="height: 35px;"
+            <p-button pButton type="button" label="Buscar" icon="pi pi-search"  styleClass="p-button-sm" class="p-button-sm" style="height: 35px;"
                 (click)="buscar()"></p-button>
         </div>
         <b class="">* digitar ruc, razon social, nro doc</b>
@@ -16,7 +16,8 @@
     <br />
     <div class="card p-2">
         <p-table [value]="traerHistoricoList" [scrollable]="true"
-            [tableStyle]="{width: '100%', border: '0px solid black'}" [loading]="load">
+            [tableStyle]="{width: '100%', border: '0px solid black'}" [loading]="load"
+            styleClass="tbl p-datatable-sm">
             <ng-template pTemplate="header">
                 <tr>
                     <th style="text-align: center;">RUC</th>

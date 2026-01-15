@@ -66,6 +66,7 @@ export class DetallepresupuestoComponent implements OnInit {
     editingRow: Detallepresupuesto | null = null;
     isAnyRowEditing: boolean = false;
     editingIndex: number | null = null; // Índice de la fila en edición
+    selectedOption: Detallepresupuesto[] = []; // row selection multiple
     // fecha hoy
     fechahoy: Date;
     //generar txt

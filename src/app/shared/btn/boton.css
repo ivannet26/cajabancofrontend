@@ -1,0 +1,34 @@
+
+  /*Botones azules */
+  .p-button.p-button-sm {
+    font-size: 0.875rem;
+    padding: 0.65625rem 1.09375rem;
+    background: #2196F3 ;
+    border-color: #2196F3 !important;
+    color: #fff !important;
+    
+    /*font-family: "Courier New", monospace ;
+    font-size: 24px ; */
+  }
+
+   /*Botones verdes */
+  .p-button.p-button-green{
+    background: #689f38 ;
+    border-color: #689f38 ;
+    color: #fff ;
+    font-size: 0.875rem;
+   /* text-transform: uppercase*/
+  }
+
+  /* botones calendario*/
+  .p-calendar .p-datepicker-trigger{
+    background: #2196F3;
+    border-color: #2196F3 ;
+  }
+
+  /* botones rojos*/
+  .p-button.p-button-red{
+    color: #ffffff;
+    background: #ef4444;
+    border: 1px solid #ef4444;
+  }

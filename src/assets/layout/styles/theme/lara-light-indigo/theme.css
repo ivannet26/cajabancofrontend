@@ -1958,6 +1958,7 @@
     transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
     border-radius: 6px;
   }
+
   .p-button:not(:disabled):hover {
     background: #4F46E5;
     color: #ffffff;
@@ -2013,10 +2014,11 @@
   .p-button.p-button-text.p-button-plain {
     color: #6b7280;
   }
+  /*
   .p-button.p-button-text.p-button-plain:not(:disabled):hover {
     background: #f3f4f6;
     color: #6b7280;
-  }
+  }*/
   .p-button.p-button-text.p-button-plain:not(:disabled):active {
     background: #e5e7eb;
     color: #6b7280;

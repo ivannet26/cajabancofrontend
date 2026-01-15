@@ -87,16 +87,16 @@
                         <td>
                             <div class="flex gap-2 justify-content-center">
                                 <ng-container *ngIf="editingFactura?.numero === factura.numero; else editButtons">
-                                    <p-button icon="pi pi-check" styleClass="p-button-success p-button-sm"
+                                    <p-button icon="pi pi-check" styleClass="p-button-success p-button-smm btn-icon"
                                         (onClick)="saveEditingFactura()" pTooltip="Guardar" [text]="true"></p-button>
-                                    <p-button icon="pi pi-times" styleClass="p-button-danger p-button-sm"
+                                    <p-button icon="pi pi-times" styleClass="p-button-danger p-button-smm btn-icon"
                                         (onClick)="cancelEditingFactura()" pTooltip="Cancelar" [text]="true"></p-button>
                                 </ng-container>
                                 <ng-template #editButtons>
-                                    <p-button icon="pi pi-pencil" styleClass="p-button-text p-button-sm"
+                                    <p-button icon="pi pi-pencil" styleClass="p-button-text p-button-smm btn-icon"
                                         (onClick)="startEditingFactura(factura)" [disabled]="isAnyRowEditing"
                                         pTooltip="Modificar" [text]="true"></p-button>
-                                    <p-button icon="pi pi-trash" styleClass="p-button-danger p-button-sm"
+                                    <p-button icon="pi pi-trash" styleClass="p-button-danger p-button-smm btn-icon"
                                         [disabled]="isAnyRowEditing" pTooltip="Eliminar" [text]="true"
                                         (onClick)="eliminarFactura(factura)"></p-button>
                                 </ng-template>
@@ -161,9 +161,9 @@
                             <div class="flex gap-2 justify-content-center">
                                 <ng-container *ngIf="editingSustento?.ban05NombreArchivo === sustento.ban05NombreArchivo; 
                                     else editButtons2">
-                                    <p-button icon="pi pi-check" styleClass="p-button-success p-button-sm"
+                                    <p-button icon="pi pi-check" styleClass="p-button-success p-button-smm"
                                         (onClick)="saveEditingSustento()" pTooltip="Guardar" [text]="true"></p-button>
-                                    <p-button icon="pi pi-times" styleClass="p-button-danger p-button-sm"
+                                    <p-button icon="pi pi-times" styleClass="p-button-danger p-button-smm"
                                         (onClick)="cancelEditingSustento()" pTooltip="Cancelar" [text]="true"></p-button>
                                 </ng-container>
                                 <ng-template #editButtons2>

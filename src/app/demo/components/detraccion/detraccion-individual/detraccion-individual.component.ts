@@ -54,6 +54,7 @@ rowsPerPage : number = 10;
  mesPeriodo:string = '';
 loading: boolean = false;
 displayAgregarModal:boolean = false;
+selectedOption: any | null = null; // row selection
 //item para breadcrumb
 items: any[] = [];
 

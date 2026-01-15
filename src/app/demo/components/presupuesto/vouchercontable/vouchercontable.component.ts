@@ -72,6 +72,7 @@ export class VouchercontableComponent implements OnInit {
 
     verConfirmarActualizacion: boolean = false;
     selectedVoucherC: string;
+    selectedOption: VoucherContableDetalle[] = []; // row selection multiple
     // esDetraccionMasiva:boolean = false;
     // esDetraccionIndiivudla:boolean = false;
     // esRetencion:boolean = false;

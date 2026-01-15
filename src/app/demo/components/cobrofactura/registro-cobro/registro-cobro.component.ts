@@ -52,6 +52,7 @@ export class RegistroCobroComponent implements OnInit{
   proveedores: proveedores_lista[];
   selectCliente:string | null =null;
   listaClientes:ClienteconFactura[] =[];
+  selectedOption: proveedores_lista[] = []; // row selection multiple
 
  nuevoFormulario: RegistroCobro ={
     ban03Empresa : '',

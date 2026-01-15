@@ -17,10 +17,13 @@ import { Router } from '@angular/router';
 import { GlobalService } from '../../service/global.service';
 import { verMensajeInformativo } from '../utilities/funciones_utilitarias';
 import { DropdownModule } from 'primeng/dropdown';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { MenuItem } from 'primeng/api';
+
 @Component({
     selector: 'app-cuenta-bancaria',
     standalone: true,
-    imports: [ToastModule, TableModule, ReactiveFormsModule, CommonModule, ButtonModule, CardModule, InputTextModule, PanelModule, BreadcrumbModule, ConfirmDialogModule, FormsModule, DropdownModule],
+    imports: [ToastModule, TableModule, ReactiveFormsModule, CommonModule, ButtonModule, CardModule, InputTextModule, PanelModule, BreadcrumbModule, ConfirmDialogModule, FormsModule, DropdownModule,ContextMenuModule],
     templateUrl: './cuenta-bancaria.component.html',
     styleUrl: './cuenta-bancaria.component.css',
     providers: [MessageService, ConfirmationService]
@@ -39,6 +42,8 @@ export class CuentaBancariaComponent implements OnInit {
     items: any[] = [];
     isEditingAnyRow: boolean = false;
     rowsPerPage: number = 10; // Numero de filas por página
+    selectedOption: any | null = null; // row selection
+    menuItems:MenuItem[] = [];
 
     constructor(private bancoService: BancoService, private fb: FormBuilder,
         private confirmationService: ConfirmationService,
@@ -54,6 +59,25 @@ export class CuentaBancariaComponent implements OnInit {
         this.bS.currentBreadcrumbs$.subscribe(bc => {
             this.items = bc;
         })
+
+        this.menuItems = [
+            { 
+                label: 'Ver Cuentas', 
+                icon: 'pi pi-fw pi-search', 
+                command: () => {
+                    if(this.selectedOption) this.verCuentas(this.selectedOption);
+                } 
+            },
+
+            { 
+                label: 'Eliminar', 
+                icon: 'pi pi-fw pi-times', 
+                command: () => {
+                    if(!this.selectedOption) return;
+                    const index=this.bancoList.findIndex(b=>b.ban01IdBanco === this.selectedOption!.ban01IdBanco);
+                    if(index>=0) this.onDelete(this.selectedOption!,index);
+                } }
+        ];
         this.initForm()
         this.cargarBancos()
     }

@@ -66,6 +66,7 @@ export class CuentaComponent {
   idBanco: string;
   descripcion: string;
   navigationData : any;
+  selectedOption: Cuenta_Bancaria[] = []; // row selection multiple
 
   constructor(private fb: FormBuilder, private cbS: CuentaBancariaService,
       private messageService: MessageService, private confirmationsService: ConfirmationService,

@@ -15,14 +15,17 @@
                 <label for="rowsPerPage" class="mr-2">Filas por página:</label>
                 <p-dropdown id="rowsPerPage" [options]="[10, 20, 40]" 
                 [(ngModel)]="rowsPerPage"
-                    placeholder="Seleccionar" class="p-button-sm"></p-dropdown>
+                    placeholder="Seleccionar" class="p-button-smm"></p-dropdown>
             </div>
         </div>
 
+        <p-contextMenu #cm [model]="menuItems" (onHide)="selectedOption = null" />
+
         <!-- Tabla Principal -->
-        <p-table [value]="mediopagoList" dataKey="ban01IdTipoPago" editMode="row" [paginator]="true"
+        <p-table [value]="mediopagoList" dataKey="ban01IdTipoPago"  editMode="row" [paginator]="true"
             [rows]="rowsPerPage" responsiveLayout="scroll" styleClass="p-datatable-sm"
-            style="table-layout: fixed; width: 100%;" [scrollable]="true" scrollHeight="400px">
+            style="table-layout: fixed; width: 100%;" [scrollable]="true" scrollHeight="400px" [(contextMenuSelection)]="selectedOption" 
+                 [contextMenu]="cm" styleClass="tbl p-datatable-sm">
             <!-- Cabecera de Tabla -->
             <ng-template pTemplate="header">
                 <tr>
@@ -41,9 +44,10 @@
                 </tr>
             </ng-template>
 
+
             <!-- Cuerpo de Tabla -->
             <ng-template pTemplate="body" let-mediopago let-ri="rowIndex" let-editing="editing">
-                <tr [pEditableRow]="mediopago">
+                <tr [pEditableRow]="mediopago"  [pContextMenuRow]="mediopago">
                     <!-- Código -->
                     <td style="text-align: left;">
                         <p-cellEditor>
@@ -207,19 +211,19 @@
                     <td>
                         <div class="flex justify-content-center gap-2">
                             <button *ngIf="!editing" pButton pInitEditableRow (click)="onRowEditInit(mediopago)"
-                                icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-sm"></button>
+                                icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-smm"></button>
 
                             <button *ngIf="editing" pButton pSaveEditableRow (click)="onRowEditSave(mediopago)"
                                 icon="pi pi-check"
-                                class="p-button-rounded p-button-text p-button-sm p-button-success"></button>
+                                class="p-button-rounded p-button-text p-button-smm p-button-success"></button>
 
                             <button *ngIf="editing" pButton pCancelEditableRow (click)="onRowEditCancel(mediopago, ri)"
                                 icon="pi pi-times"
-                                class="p-button-rounded p-button-text p-button-sm p-button-danger"></button>
+                                class="p-button-rounded p-button-text p-button-smm p-button-danger"></button>
 
                             <button *ngIf="!editing" pButton type="button" (click)="onDelete(mediopago, ri)"
                                 icon="pi pi-trash"
-                                class="p-button-rounded p-button-text p-button-sm p-button-danger"></button>
+                                class="p-button-rounded p-button-text p-button-smm p-button-danger"></button>
                         </div>
                     </td>
                 </tr>
@@ -282,9 +286,9 @@
                     </td>
                     <td style="width: 8%">
                         <div class="flex gap-2 justify-content-center">
-                            <p-button icon="pi pi-check" styleClass="p-button-success p-button-sm" [text]="true"
+                            <p-button icon="pi pi-check" styleClass="p-button-success p-button-smm" [text]="true"
                                 (onClick)="onSave()" pTooltip="Guardar"></p-button>
-                            <p-button icon="pi pi-times" styleClass="p-button-danger p-button-sm" [text]="true"
+                            <p-button icon="pi pi-times" styleClass="p-button-danger p-button-smm" [text]="true"
                                 (onClick)="onCancel()" pTooltip="Cancelar"></p-button>
                         </div>
                     </td>

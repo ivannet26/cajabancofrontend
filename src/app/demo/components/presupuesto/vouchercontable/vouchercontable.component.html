@@ -56,7 +56,7 @@
                         
                         [style]="{ 'min-width': '100px', height: '2.5rem' }"
                     />
-                    <p-button label="Generar PDF" icon="pi pi-plus"  (onClick) ="generarPDF()"/>
+                    <p-button label="Generar PDF" icon="pi pi-plus"  (onClick) ="generarPDF()" styleClass="p-button-green p-button-success mr-2"/>
                 </div>
             </div>
         </div>
@@ -81,6 +81,7 @@
             scrollHeight="500px"
             [loading]="load"
             [globalFilterFields]="['cuenta', 'CtaCbleDesc', 'NumDoc']"
+            
         >
             <ng-template pTemplate="header">
                 <tr>
@@ -110,7 +111,7 @@
             </ng-template>
 
             <ng-template pTemplate="body" let-detalle>
-                <tr>
+                <tr >
                     <td>
                         <div class="flex gap-2">
                             <ng-container
@@ -118,7 +119,7 @@
                             >
                                 <p-button
                                     icon="pi pi-pencil"
-                                    styleClass="p-button-info p-button-sm"
+                                    styleClass="p-button-info p-button-smm"
                                     pTooltip="Modificar"
                                     [text]="true"
                                     (onClick)="ActualizarVoucherContable(detalle)"
@@ -126,7 +127,7 @@
                                 ></p-button>
                                 <p-button
                                     icon="pi pi-trash"
-                                    styleClass="p-button-danger p-button-sm"
+                                    styleClass="p-button-danger p-button-smm"
                                     pTooltip="Eliminar"
                                     [text]="true"
                                     (onClick)="eliminarPago(detalle)"

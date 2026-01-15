@@ -21,12 +21,12 @@
 
             <div style="margin-top: 1rem; display: flex; justify-content: space-between;">
                 <!-- Botón Filtrar alineado a la izquierda -->
-                <p-button label="Buscar" icon="pi pi-search" (onClick)="filtrar()"></p-button>
+                <p-button styleClass="p-button-sm" label="Buscar" icon="pi pi-search" (onClick)="filtrar()"></p-button>
 
                 <!-- Contenedor de botones alineados a la derecha -->
                 <div style="display: flex; gap: 0.5rem;">
-                    <p-button label="Agregar" icon="pi pi-plus" (onClick)="onAddSelected()"></p-button>
-                    <p-button label="Cancelar" icon="pi pi-ban" severity="danger"  (onClick)="onCancelSelection()"></p-button>
+                    <p-button styleClass="p-button-sm" label="Agregar" icon="pi pi-plus" (onClick)="onAddSelected()"></p-button>
+                    <p-button styleClass="p-button-red" label="Cancelar" icon="pi pi-ban" severity="danger"  (onClick)="onCancelSelection()"></p-button>
                     <!--
                     <p-button label="Cerrar" icon="pi pi-times" (onClick)="onCerrar()"></p-button>
                     -->

@@ -15,7 +15,7 @@
                 (onClick)="buscar()"></p-button>
             
             <p-button label="Imprimir PDF"  icon="pi pi-file"
-             styleClass="p-button-sm p-button-success mr-2"
+             styleClass="p-button-green p-button-success mr-2"
                 (onClick)="obtenerFacturaPendiente()"></p-button>
 
         </div>
@@ -28,6 +28,7 @@
         [scrollable]="true" [tableStyle]="{width: '100%', border: '0px solid black'}"
         groupRowsBy="ruc" rowGroupMode="subheader"
         [loading]="load"
+        styleClass="tbl p-datatable-sm"
         >
         <ng-template pTemplate="header">
             <tr>

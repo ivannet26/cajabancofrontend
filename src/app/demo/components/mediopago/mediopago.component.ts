@@ -21,6 +21,8 @@ import { BancoService } from '../../service/banco.service';
 import { Banco } from '../../model/Banco';
 import { CuentaBancariaService } from '../../service/cuenta-bancaria.service';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-mediopago',
@@ -31,7 +33,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     ToastModule, TableModule, ReactiveFormsModule, CommonModule, 
     ButtonModule, CardModule,
     InputTextModule, PanelModule, BreadcrumbModule,
-     ConfirmDialogModule, FormsModule, DropdownModule, CheckboxModule
+     ConfirmDialogModule, FormsModule, DropdownModule, CheckboxModule,
+     ContextMenuModule
   ],
   providers: [MessageService, ConfirmationService]
 })
@@ -48,6 +51,8 @@ export class MediopagoComponent implements OnInit {
   cuentasOptions: any[] = [];
   cuentasOptionsRow: { [key: string]: any[] } = {}; // Initialize as an empty object
   monedaOptions: any[] = []; // Opciones para el dropdown de moneda
+  selectedOption: any | null = null; // row selection
+  menuItems:MenuItem[] = [];
 
   constructor(
     private mediopagoService: MediopagoService,
@@ -69,6 +74,20 @@ export class MediopagoComponent implements OnInit {
     this.breadcrumbService.currentBreadcrumbs$.subscribe(bc => {
       this.items = bc;
     });
+
+    this.menuItems = [
+            { 
+                label: 'Eliminar', 
+                icon: 'pi pi-fw pi-times', 
+                command: () => {
+                    if(!this.selectedOption) return;
+                    const index=this.mediopagoList.findIndex(b=>
+                      b.ban01Empresa === this.selectedOption!.ban01Empresa &&
+                      b.ban01IdTipoPago === this.selectedOption!.ban01IdTipoPago);
+                    if(index>=0) this.onDelete(this.selectedOption!,index);
+                } }
+        ];
+        
     this.initForm();
     this.cargarMediosPago();
     this.cargarBancos(); // <-- Agregado

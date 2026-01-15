@@ -46,9 +46,9 @@
         <div style="display: flex; justify-content: flex-start; margin-bottom: 0.5rem;">
             <p-button label="Agregar Doc x Pagar" icon="pi pi-plus" styleClass="p-button-sm mr-2"
                 (onClick)="DatosdeRegistro()"></p-button>
-            <p-button label="Imprimir PDF" icon="pi pi-file-pdf" styleClass="p-button-sm p-button-success mr-2"
+            <p-button label="Imprimir PDF" icon="pi pi-file-pdf" styleClass="p-button-green p-button-success mr-2"
                 (onClick)="exportarPDF()"></p-button>
-            <p-button label="Generar txt" icon="pi pi-file-export" styleClass="p-button-sm p-button-success"
+            <p-button label="Generar txt" icon="pi pi-file-export" styleClass="p-button-green p-button-success mr-2"
                 (onClick)="generarArchivoPago()"></p-button>
             <!-- <p-button label="Imprimir PDF Pendiente" icon="pi pi-file-pdf" styleClass="p-button-sm p-button-success mr-2"
                 (onClick)="exportarPDFPendiente()"></p-button> -->
@@ -56,11 +56,12 @@
     </div>
 
     <div class="card p-2">
-        <p-table [value]="DetallePago" sortField="ban02Ruc" sortMode="single" rowGroupMode="subheader"
+        <p-table [value]="DetallePago" sortField="ban02Ruc" sortMode="single" rowGroupMode="subheader" 
             groupRowsBy="ban02Ruc" [scrollable]="true" scrollHeight="500px" [loading]="load"
-            [globalFilterFields]="['ban02Ruc','razonsocial','ban02NroDoc']">
+            [globalFilterFields]="['ban02Ruc','razonsocial','ban02NroDoc']"
+                 >
             <ng-template pTemplate="header">
-                <tr>
+                <tr >
                     <th rowspan="2">Item</th>
                     <th rowspan="2">RUC
                         <br>
@@ -290,16 +291,16 @@
                         </div> -->
                         <div class="flex gap-2 justify-content-end">
                             <ng-container *ngIf="editingRow?.item === detalle.item; else editButtons">
-                                <p-button icon="pi pi-check" styleClass="p-button-success p-button-sm"
+                                <p-button icon="pi pi-check" styleClass="p-button-success p-button-smm"
                                     (onClick)="saveEditing()" pTooltip="Guardar" [text]="true"></p-button>
-                                <p-button icon="pi pi-times" styleClass="p-button-danger p-button-sm"
+                                <p-button icon="pi pi-times" styleClass="p-button-danger p-button-smm"
                                     (onClick)="cancelEditing()" pTooltip="Cancelar" [text]="true"></p-button>
                             </ng-container>
                             <ng-template #editButtons>
-                                <p-button icon="pi pi-pencil" styleClass="p-button-text p-button-sm"
+                                <p-button icon="pi pi-pencil" styleClass="p-button-text p-button-smm"
                                     (onClick)="startEditing(detalle,index)" [disabled]="isAnyRowEditing"
                                     pTooltip="Modificar" [text]="true"></p-button>
-                                <p-button icon="pi pi-trash" styleClass="p-button-danger p-button-sm"
+                                <p-button icon="pi pi-trash" styleClass="p-button-danger p-button-smm"
                                     [disabled]="isAnyRowEditing" pTooltip="Eliminar" [text]="true"
                                     (onClick)="eliminarPago(detalle)"></p-button>
                             </ng-template>

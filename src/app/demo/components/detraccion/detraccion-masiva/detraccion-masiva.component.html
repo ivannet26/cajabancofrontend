@@ -29,7 +29,7 @@ header="COnfirmar pago"
                 <label for="rowsPerPage" class="mb-2">Filas por pagina:</label>
                 <p-dropdown id="rowsPerPage" [options]="[10, 20, 40]"
                 [(ngModel)]="rowsPerPage"  
-                placeholder="Seleccionar" class="p-button-sm"></p-dropdown>
+                placeholder="Seleccionar" class="p-button-smm"></p-dropdown>
             </div>
 
         </div>
@@ -39,11 +39,13 @@ header="COnfirmar pago"
             [paginator]="true"
             [rows]="rowsPerPage"
             responsiveLayout="scrol"
+             
             styleClass="p-datatable-sm"
             [loading]="loading"
+            styleClass="tbl p-datatable-sm"
             >
                     <ng-template pTemplate="header">
-                        <tr>
+                        <tr >
                             <th style="width: 8%;white-space: pre-wrap;">Lote<br>Detraccion</th>
                             <th style="width: 10%;white-space: pre-wrap;">PagoNro</th> 
                             
@@ -61,7 +63,7 @@ header="COnfirmar pago"
                     </ng-template>
                     <ng-template pTemplate="body" 
                         let-detmasiva>
-                        <tr>
+                        <tr >
                             <td style="text-align:left; white-space:nowrap;" >
                                 {{detmasiva.loteDetraccionNro}}
                             </td>
@@ -106,20 +108,20 @@ header="COnfirmar pago"
                                     
                                     
                                     <button pButton icon="pi pi-eye" pVerDetalle
-                                    class="p-button.p-button-rounded p-button-text p-button-sm p-button-info"
+                                    class="p-button.p-button-rounded p-button-text p-button-smm p-button-info"
                                     (click)="verDetalle(detmasiva)"
                                     ></button>
 
                                     <ng-container *ngIf="detmasiva.presupuestoCod == '00000'">
                                         <button pButton icon="pi pi-trash" pEliminarPago
-                                            class="p-button p-button-rounded p-button-text p-button-sm p-disabled"
+                                            class="p-button p-button-rounded p-button-text p-button-smm p-disabled"
                                             [disabled] = "true"
                                             (click)="eliminarPagoPresupuesto(detmasiva)">
                                         </button>
                                     </ng-container>
                                     <ng-container *ngIf="detmasiva.presupuestoCod !='00000'">
                                         <button pButton icon="pi pi-trash" pEliminarPago
-                                            class="p-button p-button-rounded p-button-text p-button-sm p-button-danger"
+                                            class="p-button p-button-rounded p-button-text p-button-smm p-button-danger"
                                             [disabled] = "false"
                                             (click)="eliminarPagoPresupuesto(detmasiva)">
                                         </button>
@@ -131,29 +133,29 @@ header="COnfirmar pago"
 
                                     <ng-container *ngIf="detmasiva.presupuestoCod == '00000'">
                                         <button pButton icon="pi pi-money-bill" pConfirmarPago
-                                            class="p-button.p-button-rounded p-button-text p-button-sm p-button-success"
+                                            class="p-button.p-button-rounded p-button-text p-button-smm p-button-success"
                                             (click)="confirmarPagoPresupuesto(detmasiva)" [disabled]="false"></button>
                                     </ng-container>
                                     <ng-container *ngIf="detmasiva.presupuestoCod !='00000'">
                                         <button pButton icon="pi pi-money-bill" pConfirmarPago
-                                            class="p-button.p-button-rounded p-button-text p-button-sm p-disabled"
+                                            class="p-button.p-button-rounded p-button-text p-button-smm p-disabled"
                                             (click)="confirmarPagoPresupuesto(detmasiva)" [disabled]="true" ></button>
                                     </ng-container>
                                     <ng-container *ngIf="detmasiva.presupuestoCod =='00000'">
                                          <button pButton icon="pi pi-file-pdf" pVerDocumento
-                                                class="p-button p-button-rounded p-button-text p-button-sm p-button-danger"
+                                                class="p-button p-button-rounded p-button-text p-button-smm p-button-danger"
                                                 [disabled] = "true"
                                                 (click)="abrirdocumento(detmasiva)">
                                             </button>
                                     </ng-container>
                                     <ng-container *ngIf="detmasiva.presupuestoCod !='00000'">
                                          <button pButton icon="pi pi-file-pdf" pVerDocumento
-                                                class="p-button p-button-rounded p-button-text p-button-sm p-button-danger"
+                                                class="p-button p-button-rounded p-button-text p-button-smm p-button-danger"
                                                 [disabled] = "false"
                                                 (click)="abrirdocumento(detmasiva)">
                                             </button>
                                     </ng-container>
-                                     <p-button icon="pi pi-file" styleClass="p-button-info p-button-sm"
+                                     <p-button icon="pi pi-file" styleClass="p-button-info p-button-smm"
                                                 tooltipPosition="left" pTooltip="Ver voucher contable" [text]="true"
                                                 (onClick)="verVouchercontable(detmasiva)"
                                                 [disabled]="detmasiva.presupuestoCod !='00000' ? false:true ">

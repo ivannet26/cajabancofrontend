@@ -59,6 +59,9 @@ export class ConsultaDocPorPagoComponent implements OnInit {
     //datos
 
     searchPerformed: boolean = false;
+    selectedOption: ConsultaDocPorPago[] = []; // row selection multiple
+
+    
 
 
     constructor(
