@@ -2014,11 +2014,10 @@
   .p-button.p-button-text.p-button-plain {
     color: #6b7280;
   }
-  /*
   .p-button.p-button-text.p-button-plain:not(:disabled):hover {
     background: #f3f4f6;
     color: #6b7280;
-  }*/
+  }
   .p-button.p-button-text.p-button-plain:not(:disabled):active {
     background: #e5e7eb;
     color: #6b7280;
