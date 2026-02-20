@@ -7,6 +7,7 @@ import { RespuestaAPIBase } from '../components/utilities/funciones_utilitarias'
 import { MedioPago } from '../model/presupuesto';
 import { InterbankArchivoCab, InterbankArchivoDet } from '../model/InterbankArchivo';
 import { BanbifArchivoCab } from '../model/BanbifArchivo';
+import { BCPArchivoCab, BCPArchivoDet } from '../model/BCPArchivo';
 @Injectable({
     providedIn: 'root',
 })
@@ -325,6 +326,25 @@ export class PresupuestoService {
             return this.http.get<RespuestaAPIBase<BanbifArchivoCab[]>>(
                 `${this.urlApi}/SpListaBanbifArchivoCab`, {params}
                 ).pipe(map((response) => response.data));
+        }
+        public SpListaBcpArchivoCab(empresa:string,numeroPresupuesto:string): Observable<BCPArchivoCab[]>
+        {
+               const params = new HttpParams()
+                .set('empresa', empresa)
+                .set('numeroPresupuesto',numeroPresupuesto);
+              return this.http.get<RespuestaAPIBase<BCPArchivoCab[]>>(
+                `${this.urlApi}/SpListaBcpCab`, {params}
+                ).pipe(map((response) => response.data));                                    
+        }
+
+         public SpListaBcpArchivoDet(empresa:string,numeroPresupuesto:string): Observable<BCPArchivoDet[]>
+        {
+               const params = new HttpParams()
+                .set('empresa', empresa)
+                .set('numeroPresupuesto',numeroPresupuesto);
+              return this.http.get<RespuestaAPIBase<BCPArchivoDet[]>>(
+                `${this.urlApi}/SpListaBcpDet`, {params}
+                ).pipe(map((response) => response.data));                                    
         }
 
 

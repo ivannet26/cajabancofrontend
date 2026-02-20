@@ -8,19 +8,16 @@ export interface BanbifArchivoCab{
     monedaDocumentoPago:string;
     importePagar:string;
     fechaPago:string;
-    codigoDocumentoPropio:string;
+    codigoDocumentoPropioCliente:string;
     formaPago:string;
     codigoBanco:string;
     monedaCuenta:string;
     numeroCuenta:string;
-    documentoAplicarNotaCredito:string;
+    numDocAplicarNotaCredito:string;
     fechaAdelanto:string;
        constante:string;
 /*                      
-  public string  monedaCuenta { get; set; }
-  public string numeroCuenta { get; set; }
-  public string  documentoAplicarNotaCredito { get; set; }
-  public string  fechaAdelanto { get; set; }
-  public string  constante { get; set; }*/ 
+
+  */ 
 
 }
