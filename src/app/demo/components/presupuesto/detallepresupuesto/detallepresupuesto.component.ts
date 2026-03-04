@@ -544,8 +544,8 @@ export class DetallepresupuestoComponent implements OnInit {
                 { text: 'Fecha vencimiento', rowSpan: 2, style: 'tableHeader' },
                 { text: 'Importe Total S/.', rowSpan: 2, style: 'tableHeader' },
                 { text: 'Importe Total US$', rowSpan: 2, style: 'tableHeader' }, // 10
-                { text: '', colSpan: 2, style: 'tableHeader' }, // 11  , 12
-                '', // 13
+                { text: 'Monto a Pagar', colSpan: 2, style: 'tableHeader' },
+                '',
                 { text: 'Detraccion', colSpan: 4, style: 'tableHeader' }, // 3 a 4 = 14,15,16,17
                 '',
                 '',
@@ -567,15 +567,20 @@ export class DetallepresupuestoComponent implements OnInit {
                 '',
                 '',
                 '',
-                '', // 10
+                '',
+                '',
+                '', // 12
                 { text: 'Monto a Pagar S/.', style: 'tableHeader' }, // 11
                 { text: 'Monto a Pagar $', style: 'tableHeader' }, // 12
+
                 { text: 'Tipo', style: 'tableHeader' }, // 13 
                 { text: 'Tasa', style: 'tableHeader' }, // 14
                 { text: 'Importe Soles', style: 'tableHeader' },
                 { text: 'Importe Dolares', style: 'tableHeader' }, // NUEVA COLUMNA Importe Dolares
+                
                 { text: 'Importe Soles', style: 'tableHeader' },
                 { text: 'Importe Dolares', style: 'tableHeader' }, // NUEVA COLUMNA Retencion Dolares
+                
                 { text: 'Importe Soles', style: 'tableHeader' },
                 { text: 'Importe Dolares', style: 'tableHeader' }, // NUEVA COLUMNA Percepcion Dolares
                 { text: 'S/.', style: 'tableHeader' },
@@ -611,6 +616,10 @@ export class DetallepresupuestoComponent implements OnInit {
 
         // Cuerpo de la tabla
         const body = [...headers];
+        const textCell = (v: any) => ({ 
+            text: (v ?? '').toString(), 
+            noWrap: false 
+        });
 
         Object.keys(groupedData).forEach((ruc) => {
             const groupItems = groupedData[ruc];
@@ -618,9 +627,9 @@ export class DetallepresupuestoComponent implements OnInit {
                 body.push([
                     item.item,
                     item.ban02Ruc,
-                    item.razonsocial,
-                    item.numeroCuenta,
-                    item.nombreBanco,
+                    textCell(item.razonsocial),
+  textCell(item.numeroCuenta),
+  textCell(item.nombreBanco),
                     item.nombreTipoDocumento,
                     item.ban02NroDoc,
 
@@ -688,7 +697,7 @@ export class DetallepresupuestoComponent implements OnInit {
             );
 
             body.push([
-                { text: '', colSpan: 8, style: 'subtotal' },
+                { text: '', colSpan: 10, style: 'subtotal' },
                 '',
                 '',
                 '',
@@ -781,7 +790,7 @@ export class DetallepresupuestoComponent implements OnInit {
         const totalNetoDolares = this.getTotalColumn('ban02NetoDolares');
 
         body.push([
-            { text: '', colSpan: 9, style: 'total' },
+            { text: '', colSpan: 11, style: 'total' },
             '',
             '',
             '',
@@ -811,11 +820,52 @@ export class DetallepresupuestoComponent implements OnInit {
 
 
 
+        const colCount = body[0].length; 
+        const widths = [
+            15,   // Item
+            35,   // RUC
+            //'*',  // Razon Social
+            25,  // Razon Social
+            35,   // Nro Cuenta
+            25,   // Banco
+            20,   // Tipo Doc
+            18,   // Numero
+            22,   // Moneda
+            25,   // Fecha emision
+            25,   // Fecha venc
+            25,   // Importe Total S/.
+            25,   // Importe Total US$
+            25,   // Monto a pagar S/
+            25,   // Monto a pagar $
+            20,   // Tipo detraccion
+            20,   // Tasa
+            30,   // Detraccion soles
+            30,   // Detraccion dolares
+            30,   // Retencion soles
+            30,   // Retencion dolares
+            30,   // Percepcion soles
+            35,   // Percepcion dolares
+            30,   // Neto soles
+            30    // Neto dolares
+            ];
+
+
+        const expectedCols = body[0].length;
+        
+        body.forEach((row, i) => {
+            if (row.length !== expectedCols) {
+                console.error('Fila PDF con numero de columnas incorrectas', i, row.length, row);
+            }
+            
+            for (let j = 0; j < expectedCols; j++) {
+                if (row[j] === undefined) row[j] = '';
+            }
+        });
 
         // Estructura y estilos del pdf, medio complicado es
         const docDefinition = {
             pageOrientation: 'landscape',
-            pageMargins: [15, 15, 15, 15],
+            pageMargins: [6, 8, 6, 8],
             content: [
                 //title
                 { text: 'Detalle de Presupuesto', style: 'header' },
@@ -860,10 +910,7 @@ export class DetallepresupuestoComponent implements OnInit {
                 {
                     table: {
                         headerRows: 2,
-                        widths: [
-                            15, 38, 58, 26, 40, 26, 32, 39, 30, 31, 30, 30, 15,
-                            15, 24, 25 , 24 , 25 , 25 , 25 ,  31 , 31,
-                        ],
+                        widths: widths,
                         body: body,
                         alignment: 'center',
                     },
@@ -891,10 +938,17 @@ export class DetallepresupuestoComponent implements OnInit {
                             return '#aaa';
                         },
                         paddingTop: function (i) {
-                            return 4;
+                            return 3;
                         },
                         paddingBottom: function (i) {
-                            return 4;
+                            return 3;
+                        },
+
+                        paddingLeft: function (i) {
+                            return 3;
+                        },
+                        paddingRight: function (i) {
+                            return 3;
                         },
                     },
                 },
@@ -915,26 +969,26 @@ export class DetallepresupuestoComponent implements OnInit {
                 },
                 tableHeader: {
                     bold: true,
-                    fontSize: 7,
+                    fontSize: 5,
                     alignment: 'center',
                     fillColor: '#eeeeee',
                     margin: [0, 5],
                 },
                 subtotal: {
                     bold: true,
-                    fontSize: 6,
+                    fontSize: 5,
                     alignment: 'right',
                 },
                 total: {
                     bold: true,
-                    fontSize: 6,
+                    fontSize: 5,
                     alignment: 'right',
                 },
             },
             defaultStyle: {
-                fontSize: 6,
+                fontSize: 5,
                 alignment: 'left',
-            },
+            }
         };
 
         // Generamos el pdf

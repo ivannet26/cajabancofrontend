@@ -21,7 +21,7 @@
 
             <div style="flex: 1;">
                 <label for="fecha" class="text-sm">Fecha: </label>
-                <p-calendar [disabled]="true" [(ngModel)]="fecha" style="width: 100%; height: 2.5rem;"
+                <p-calendar [disabled]="true" [(ngModel)]="fecha" [ngStyle]="{width:'100%', height:'2.5rem'}"
                     inputStyleClass="p-input-sm" dateFormat="dd/mm/yy"></p-calendar>
             </div>
         </div>
@@ -76,6 +76,8 @@
                         <p-columnFilter type="text" field="razonsocial" placeholder="Buscar" ariaLabel="Razon Social"
                             [showMenu]="false" matchMode="contains"></p-columnFilter>
                     </th>
+                    <th rowspan="2">Nro Cuenta</th>
+                    <th rowspan="2">Nombre Banco</th>
                     <th rowspan="2">Tipo Doc</th>
                     <th rowspan="2">Numero
                         <br>
@@ -175,6 +177,8 @@
                     <td style="text-align: left;">{{ detalle.item }}</td>
                     <td style="text-align: left;">{{ detalle.ban02Ruc }}</td>
                     <td style="text-align: left;">{{ detalle.razonsocial }}</td>
+                    <td style="text-align: left;">{{ detalle.numeroCuenta  }}</td>
+                    <td style="text-align: left;">{{ detalle.nombreBanco  }}</td>
                     <td style="text-align: left;">{{ detalle.nombreTipoDocumento }}</td>
                     <td style="text-align: left;">{{ detalle.ban02NroDoc }}</td>
                     <td
