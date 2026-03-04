@@ -70,6 +70,10 @@ export interface Detallepresupuesto {
 
     importecomprobantedolares:number;
     importecomprobantesoles:number;
+
+    numeroCuenta:string;
+    nombreBanco:string;
+
 }
 
 export interface agregar_Pago {

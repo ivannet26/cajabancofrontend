@@ -523,6 +523,8 @@ export class DetallepresupuestoComponent implements OnInit {
     }
 
     exportarPDF() {
+        console.log("metodo exportar pdf");
+        console.log(this.DetallePago);
         if (!this.DetallePago || this.DetallePago.length === 0) {
             // verMensajeInformativo(this.messageService,'warn', 'Advertencia', 'No hay datos para exportar');
             return;
@@ -533,6 +535,8 @@ export class DetallepresupuestoComponent implements OnInit {
                 { text: 'Item', rowSpan: 2, style: 'tableHeader' },
                 { text: 'RUC', rowSpan: 2, style: 'tableHeader' },
                 { text: 'Razon Social', rowSpan: 2, style: 'tableHeader' },
+                { text: 'Nro.Cuenta', rowSpan: 2, style: 'tableHeader' },
+                { text: 'Banco', rowSpan: 2, style: 'tableHeader' },
                 { text: 'Tipo Doc', rowSpan: 2, style: 'tableHeader' },
                 { text: 'Numero', rowSpan: 2, style: 'tableHeader' },
                 { text: 'Moneda Original', rowSpan: 2, style: 'tableHeader' },
@@ -615,8 +619,11 @@ export class DetallepresupuestoComponent implements OnInit {
                     item.item,
                     item.ban02Ruc,
                     item.razonsocial,
+                    item.numeroCuenta,
+                    item.nombreBanco,
                     item.nombreTipoDocumento,
                     item.ban02NroDoc,
+
                     item.nombremoneda,
                     item.ban02FechaEmision,
                     item.ban02FechaVencimiento,
@@ -774,7 +781,7 @@ export class DetallepresupuestoComponent implements OnInit {
         const totalNetoDolares = this.getTotalColumn('ban02NetoDolares');
 
         body.push([
-            { text: '', colSpan: 7, style: 'total' },
+            { text: '', colSpan: 9, style: 'total' },
             '',
             '',
             '',
@@ -1004,7 +1011,7 @@ export class DetallepresupuestoComponent implements OnInit {
                                             });
                                             const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
                                             const fechaActual = new Date();
-                                            const nombreArchivo = `archivocarga_${formatDateForFilename(fechaActual)}.txt`;
+                                            const nombreArchivo = `archivocPagoBIF_${formatDateForFilename(fechaActual)}.txt`;
                                             saveAs(blob, nombreArchivo);
                                             verMensajeInformativo(this.messageService, 'success', 'Éxito', 'Archivo TXT generado correctamente');
                                     }
@@ -1059,7 +1066,7 @@ export class DetallepresupuestoComponent implements OnInit {
 
                         const blob = new Blob([contenido],{type:'text/plain;charset=utf-8'});
                         const fechaActual = new Date();
-                        const nombreArchivo = `BCPCab_${formatDateForFilename(fechaActual)}.txt`;
+                        const nombreArchivo = `archivoPagoBCPCabecera_${formatDateForFilename(fechaActual)}.txt`;
                         saveAs(blob, nombreArchivo);
                          verMensajeInformativo(this.messageService, 'success', 'Éxito', 'Archivo TXT generado correctamente');
                     }
@@ -1097,11 +1104,10 @@ export class DetallepresupuestoComponent implements OnInit {
                             contenido +=linea;
                                 console.log(linea);
                             });
-                            console.log("valor de contenido");
-                            console.log(contenido);
+                       
                             const blob = new Blob([contenido], {type:'text/plain;charset=utf-8'});
                             const fechaActual = new Date();
-                            const nombreArchivo = `archivoBcpDet_${formatDateForFilename(fechaActual)}.txt`;
+                            const nombreArchivo = `archivoPagoBcpDetaelle_${formatDateForFilename(fechaActual)}.txt`;
                             saveAs(blob, nombreArchivo);
                             verMensajeInformativo(this.messageService, 'success', 'Éxito', 'Archivo TXT generado correctamente');
                         }
