@@ -133,7 +133,7 @@
 
             <ng-template pTemplate="groupfooter" let-groupData>
                 <tr>
-                    <td colspan="8">
+                    <td colspan="10">
                     </td>
                     <td class="font-bold pr-12" style="text-align: right;">{{ calculateGroupTotal(groupData.ban02Ruc, 'ban02Soles') |
                         number:'1.2-2' }}</td>
@@ -316,7 +316,7 @@
             </ng-template>
             <ng-template pTemplate="footer">
                 <tr>
-                    <td colspan="7" class="text-right font-bold"></td>
+                    <td colspan="9" class="text-right font-bold"></td>
                     <td class="font-bold" style="text-align: left;">Sumas</td>
                     <td class="font-bold" style="text-align: right;">{{ getTotalColumn('ban02Soles') | number:'1.2-2' }}</td>
                     <td class="font-bold" style="text-align: right;">{{ getTotalColumn('ban02Dolares') | number:'1.2-2' }}</td>

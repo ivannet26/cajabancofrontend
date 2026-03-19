@@ -698,13 +698,8 @@ export class DetallepresupuestoComponent implements OnInit {
 
             body.push([
                 { text: '', colSpan: 10, style: 'subtotal' },
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
+              '','','','','','','','','',
+                
                 {
                     text: formatNumber(solesSubtotal),
                     style: 'subtotal',
@@ -790,7 +785,47 @@ export class DetallepresupuestoComponent implements OnInit {
         const totalNetoDolares = this.getTotalColumn('ban02NetoDolares');
 
         body.push([
+            // 1. Unificamos las primeras 10 columnas (de 'Item' hasta 'Fecha Vencimiento')
+            { text: 'Sumas', style: 'total', colSpan: 10,alignment: 'left' } as any, 
+            '', '', '', '', '', '', '', '', '', 
+
+            // 2. Columna 11: Importe Total S/. (AQUÍ APARECERÁ EL VALOR QUE TE FALTABA)
+            { text: formatNumber(totalSoles), style: 'total' },
+
+            // 3. Columna 12: Importe Total US$
+            { text: formatNumber(totalDolares), style: 'total' },
+
+            // 4. Monto a Pagar S/. y $ (Columnas 13 y 14)
+            // Nota: Si no tienes las variables totalMontoPagar, puedes dejar ''
+            { text: '', style: 'total' }, 
+            { text: '', style: 'total' },
+
+            // 5. Tipo y Tasa (Columnas 15 y 16)
+            { text: '', style: 'total' },
+            { text: '', style: 'total' },
+
+            // 6. Detracciones (Columnas 17 y 18)
+            { text: formatNumber(totalDetraccion), style: 'total' },
+            { text: formatNumber(totalDetraccionDolares), style: 'total' },
+
+            // 7. Retenciones (Columnas 19 y 20)
+            { text: formatNumber(totalRetencion), style: 'total' },
+            { text: formatNumber(totalRetencionDolares), style: 'total' },
+
+            // 8. Percepciones (Columnas 21 y 22)
+            { text: formatNumber(totalPercepcion), style: 'total' },
+            { text: formatNumber(totalPercepcionDolares), style: 'total' },
+
+            // 9. Netos (Columnas 23 y 24)
+            { text: formatNumber(totalNetoSoles), style: 'total' },
+            { text: formatNumber(totalNetoDolares), style: 'total' }
+        ]);
+/*
+        body.push([
+            // { text: '', colSpan: 11, style: 'total' },
             { text: '', colSpan: 11, style: 'total' },
+            '',
+            '',
             '',
             '',
             '',
@@ -818,7 +853,7 @@ export class DetallepresupuestoComponent implements OnInit {
             },
         ]);
 
-
+*/
 
         const colCount = body[0].length; 
         const widths = [
@@ -1117,7 +1152,7 @@ export class DetallepresupuestoComponent implements OnInit {
                             +`${registro.flagexoneracionitf}${registro.totalControl}\n`;
                             contenido += linea;
                         });
-
+                    
                         const blob = new Blob([contenido],{type:'text/plain;charset=utf-8'});
                         const fechaActual = new Date();
                         const nombreArchivo = `archivoPagoBCPCabecera_${formatDateForFilename(fechaActual)}.txt`;
