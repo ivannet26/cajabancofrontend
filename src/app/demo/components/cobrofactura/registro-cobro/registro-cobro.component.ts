@@ -266,7 +266,16 @@ export class RegistroCobroComponent implements OnInit{
     
       this.cobroService.insertRegistroCobro(this.nuevoFormulario)
       .subscribe({
-          next:(response) =>{
+          next: (response: any) => {
+            if (!response?.isSuccess) {
+              verMensajeInformativo(
+                this.messageService,
+                'warn',
+                'Aviso',
+                response?.message || 'El registro ya existe'
+              );
+              return;
+            }
             verMensajeInformativo(this.messageService, 
               'success', 'Exito', 
               'Registro guardardo');
@@ -299,7 +308,7 @@ export class RegistroCobroComponent implements OnInit{
           }, 
           error:(error) =>{
             verMensajeInformativo(this.messageService, 
-              'error', 'error', 
+              'error', 'Error', 
               'Error al insertar');
           }
       });

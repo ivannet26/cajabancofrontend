@@ -175,10 +175,23 @@ export class CuentaBancariaComponent implements OnInit {
         if (this.bancoForm.valid) {
             const newBanco: Banco = this.bancoForm.value;
             this.bancoService.CrearBanco(newBanco).subscribe({
-                next: () => {
+                next: (resp: any) => {
+                    if (!resp?.isSuccess) {
+                        verMensajeInformativo(
+                          this.messageService,
+                          'warn',
+                          'Aviso',
+                          'La cuenta ya existe'
+                      );
+                      return;
+                    }
+
                     this.isEditing = false;
                     this.isNew = false;
-                    this.bancoForm.reset();
+                    this.bancoForm.reset({
+                      ban01Empresa: this.globalService.getCodigoEmpresa(),
+                     });
+                     
                     verMensajeInformativo(this.messageService, 'success', 'Éxito', 'Registro guardado');
                     this.cargarBancos();
                 },

@@ -300,11 +300,22 @@ export class MediopagoComponent implements OnInit {
         };
 
         this.mediopagoService.CrearMedioPago(newMedioPago).subscribe({
-            next: () => {
+            next: (resp: any) => {
+              if (!resp?.isSuccess) {
+                verMensajeInformativo(
+                        this.messageService,
+                        'warn',
+                        'Aviso',
+                        resp?.message || 'El medio de pago ya existe'
+                    );
+                    return;
+              }
                 this.isEditing = false;
                 this.isNew = false;
                 this.mediopagoForm.reset({
                     ban01Empresa: this.globalService.getCodigoEmpresa(),
+                    ban01CtaBanBancoCod: '',
+                    ban01CtaBanCod: ''
                 });
                 verMensajeInformativo(this.messageService, 'success', 'Éxito', 'Registro guardado');
                 this.cargarMediosPago();

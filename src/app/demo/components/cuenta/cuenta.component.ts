@@ -255,7 +255,17 @@ export class CuentaComponent {
           };
           // console.log("createCuentaBancaria: ", createCuentaBancaria);
           this.cbS.CreateCuentaBancaria(createCuentaBancaria).subscribe({
-              next: () => {
+              next: (resp: any) => {
+                if (!resp?.isSuccess) {
+                    verMensajeInformativo(
+                        this.messageService,
+                        'warn',
+                        'Aviso',
+                        resp?.message || 'La cuenta ya existe'
+                    );
+                    return;
+                }
+                
                   this.loadMonedas();
                   this.isEditing = false;
                   this.isNew = false;

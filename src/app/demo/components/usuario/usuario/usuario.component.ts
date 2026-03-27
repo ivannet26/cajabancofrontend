@@ -146,6 +146,7 @@ export class UsuarioComponent implements OnInit {
                 codigoempresa: '00001'
             };
             this.uS.crear_usuario(newUsuario).subscribe({
+                /*
                 next: () => {
                     this.isEditing = false;
                     this.isNew = false;
@@ -158,6 +159,39 @@ export class UsuarioComponent implements OnInit {
                     console.error('Error al guardar:', err);
                     this.mS.add({ severity: 'error', summary: 'Error', detail: 'No se pudo guardar el registro' });
                 },
+                */
+
+                next: (resp: any) => {
+                    if (!resp?.isSuccess) {
+                        this.mS.add({
+                            severity: 'warn',
+                            summary: 'Aviso',
+                            detail: resp?.message || 'El registro existe'
+                        });
+                        return;
+                    }
+
+                    this.isEditing = false;
+                    this.isNew = false;
+                    this.UsuarioForm.reset();
+
+                    this.mS.add({
+                      severity: 'success',
+                      summary: 'Éxito',
+                      detail: 'Registro guardado'
+                    });
+
+                    this.loadUsuario();
+                    this.loadPerfiles();
+                },
+                error: (err) => {
+                    console.error('Error al guardar:', err);
+                    this.mS.add({
+                      severity: 'error',
+                      summary: 'Error',
+                      detail: 'No se pudo guardar el registro'
+                    });
+                }
             });
         }
     }

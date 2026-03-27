@@ -188,23 +188,64 @@ export class BancoComponent implements OnInit {
         });
     }
     onSave() {
-        if (this.bancoForm.valid) {
-            const newBanco: Banco = this.bancoForm.value;
-            this.bancoService.CrearBanco(newBanco).subscribe({
-                next: () => {
-                    this.isEditing = false;
-                    this.isNew = false;
-                    this.bancoForm.reset();
-                    verMensajeInformativo(this.messageService, 'success', 'Éxito', 'Registro guardado');
-                    this.cargarBancos();
-                },
-                error: (err) => {
-                    console.error('Error al guardar:', err);
-                    verMensajeInformativo(this.messageService, 'error', 'Error', 'No se pudo guardar el registro');
-                },
-            })
-        }
-    }
+      if (this.bancoForm.valid) {
+          const newBanco: Banco = this.bancoForm.value;
+
+          const existeBanco = this.bancoList.some(b =>
+              b.ban01IdBanco?.trim().toLowerCase() === newBanco.ban01IdBanco?.trim().toLowerCase()
+              || b.ban01Descripcion?.trim().toLowerCase() === newBanco.ban01Descripcion?.trim().toLowerCase()
+              || b.ban01Prefijo?.trim().toLowerCase() === newBanco.ban01Prefijo?.trim().toLowerCase()
+          );
+
+          if (existeBanco) {
+              verMensajeInformativo(
+                  this.messageService,
+                  'warn',
+                  'Aviso',
+                  'El banco ya existe'
+              );
+              return;
+          }
+
+          this.bancoService.CrearBanco(newBanco).subscribe({
+              next: (resp: any) => {
+                  if (!resp?.isSuccess) {
+                      verMensajeInformativo(
+                          this.messageService,
+                          'warn',
+                          'Aviso',
+                          resp?.message || 'Ya existe ese registro'
+                      );
+                      return;
+                  }
+
+                  this.isEditing = false;
+                  this.isNew = false;
+                  this.bancoForm.reset({
+                      ban01Empresa: this.globalService.getCodigoEmpresa(),
+                  });
+
+                  verMensajeInformativo(
+                      this.messageService,
+                      'success',
+                      'Éxito',
+                      'Registro guardado'
+                  );
+
+                  this.cargarBancos();
+              },
+              error: (err) => {
+                  console.error('Error al guardar:', err);
+                  verMensajeInformativo(
+                      this.messageService,
+                      'error',
+                      'Error',
+                      'No se pudo guardar el registro'
+                  );
+              },
+          });
+      }
+     }
 
     onCancel() {
         this.isEditing = false;

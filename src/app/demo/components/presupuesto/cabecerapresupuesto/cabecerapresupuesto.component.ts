@@ -301,7 +301,16 @@ export class CabecerapresupuestoComponent implements OnInit {
         this.presupuestoService
             .insertarPresupuesto(this.nuevoPresupuesto)
             .subscribe({
-                next: (response) => {
+                next: (response: any) => {
+                    if (!response?.isSuccess) {
+                        verMensajeInformativo(
+                          this.messageService,
+                          'warn',
+                          'Aviso',
+                          response?.message || 'El registro ya existe'
+                      );
+                      return;
+                    }
                     verMensajeInformativo(
                         this.messageService,
                         'success',
