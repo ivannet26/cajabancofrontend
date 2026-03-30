@@ -1062,8 +1062,9 @@ export class DetallepresupuestoComponent implements OnInit {
             //this.generaArchivoBIFDet();
         }else if(this.bancoCodMedioPago == '03'){
             //banco BCP  falta implementa codigo en los metodo
-            this.generaArchivoBCPCab();
-            this.generaArchivoBCPDet();
+            //this.generaArchivoBCPCab();
+            //this.generaArchivoBCPDet();
+            this.generarArchivoBCPGeneral();
         }else if(this.bancoCodMedioPago == '04'){
             //banco BBVA falta definir metodos  y codificacion  para el archivo 
 
@@ -1127,6 +1128,96 @@ export class DetallepresupuestoComponent implements OnInit {
     generaArchivoBIFDet(){
 
     }
+
+    generarArchivoBCPGeneral(){
+
+        //declaracion de variables
+           var listaCab : BCPArchivoCab[] = [];
+        var registroCab : BCPArchivoCab;
+        if (!this.DetallePago || this.DetallePago.length === 0) {
+            verMensajeInformativo(this.messageService,'warn', 'Advertencia', 'No hay datos para exportar');
+             return;
+        }
+
+        //parametros 
+         let  codigoEmpresa = this.globalService.getCodigoEmpresa();
+        let  numeroPresupuesto = this.pagnro;
+
+        let contenido = '';
+        this.presupuestoservice.SpListaBcpArchivoCab(codigoEmpresa, numeroPresupuesto).subscribe({
+                 next: (data) => { 
+            // try{
+                    listaCab = data;
+                    if(data.length > 0 ){
+                        
+                        listaCab.forEach((registro: BCPArchivoCab)=>{
+                            const linea = `${registro.tipoRegistro}${registro.cantidadAbonoPlanilla}`
+                            +`${registro.fechaProceso}${registro.tipoCuentaCargo}${registro.monedaCuentaCargo}`
+                            +`${registro.numeroCuentaCargo}${registro.montoTotalPlanilla}${registro.referenciaPlaanilla}`
+                            +`${registro.flagexoneracionitf}${registro.totalControl}\n`;
+                            contenido += linea;
+                        });
+                    console.log("contenido cabecera bcp:")
+                    console.log(contenido);
+                        // const blob = new Blob([contenido],{type:'text/plain;charset=utf-8'});
+                        // const fechaActual = new Date();
+                        // const nombreArchivo = `archivoPagoBCPCabecera_${formatDateForFilename(fechaActual)}.txt`;
+                        // saveAs(blob, nombreArchivo);
+                        //  verMensajeInformativo(this.messageService, 'success', 'Éxito', 'Archivo TXT generado correctamente');
+                    }
+                // }catch(error){
+                //         console.error('Error al generar archivo txt:', error);
+                //             verMensajeInformativo(this.messageService, 'error', 'Error', 'Ocurrió un error al generar el archivo TXT');
+                
+                // }
+            }
+            
+        });
+        let listaDet:  BCPArchivoDet[] = [];
+        //detalle
+        this.presupuestoservice.SpListaBcpArchivoDet(codigoEmpresa, numeroPresupuesto)
+                    .subscribe({
+                        next:(data)=>{
+                            // try{
+                                listaDet = data;
+                                
+                                if (data.length >0){
+                                    
+                                    listaDet.forEach((registro:BCPArchivoDet)=>{
+                                    const linea = `${registro.columna_1}${registro.columna_2}`
+                                    +`${registro.columna_3}${registro.columna_4}`
+                                    +`${registro.columna_5}${registro.columna_6}`
+                                    +`${registro.columna_7}${registro.columna_7}`
+                                    +`${registro.columna_9}${registro.columna_8}`
+                                    +`${registro.columna_11}${registro.columna_12}`
+                                    +`${registro.columna_13}\n`;
+                                    contenido +=linea;
+                                        console.log(linea);
+                                    });
+
+                                    console.log("contenido para lel archivo :")
+                                    console.log(contenido);
+                                    const blob = new Blob([contenido], {type:'text/plain;charset=utf-8'});
+                                    const fechaActual = new Date();
+                                    const nombreArchivo = `archivoPagoBcp_${formatDateForFilename(fechaActual)}.txt`;
+                                    saveAs(blob, nombreArchivo);
+                                    verMensajeInformativo(this.messageService, 'success', 'Éxito', 'Archivo TXT generado correctamente');
+                                }
+                            // }catch(error){
+                            //     verMensajeInformativo(this.messageService, 
+                            //             'error', 'Error', 'Ocurrió un error al generar el archivo TXT');
+                            // }
+
+
+
+                        }
+
+
+                                //guardar todo al informacion de contenido  en el archivo texto
+
+
+                    });
+                }
     generaArchivoBCPCab(){
           var listaCab : BCPArchivoCab[] = [];
         var registroCab : BCPArchivoCab;
@@ -1183,13 +1274,20 @@ export class DetallepresupuestoComponent implements OnInit {
                         if (data.length >0){
                             let contenido = '';
                             listaDet.forEach((registro:BCPArchivoDet)=>{
-                            const linea = `${registro.tipoRegistro}${registro.tipoCuentaAbono}`
-                            +`${registro.nroCuentaAbono}${registro.modalidadPago}`
-                            +`${registro.tipoDocumentoProveedor}${registro.numeroDocuProveedor}`
-                            +`${registro.correlativoProveedor}${registro.nombreProveedor}`
-                            +`${registro.referenciabeneficiario}${registro.referenciaempresa}`
-                            +`${registro.monedaImporteAbonar}${registro.importeAbonar}`
-                            +`${registro.flagValidarIDC}\n`;
+                                const linea =`${registro.columna_1}${registro.columna_2} `
+                                +`${registro.columna_3}${registro.columna_4}`
+                                +`${registro.columna_5}${registro.columna_6}`
+                                +`${registro.columna_7}${registro.columna_8}`
+                                +`${registro.columna_9}${registro.columna_10}`
+                                +`${registro.columna_11}${registro.columna_12}`
+                                +`${registro.columna_13}`;
+                            // const linea = `${registro.tipoRegistro}${registro.tipoCuentaAbono}`
+                            // +`${registro.nroCuentaAbono}${registro.modalidadPago}`
+                            // +`${registro.tipoDocumentoProveedor}${registro.numeroDocuProveedor}`
+                            // +`${registro.correlativoProveedor}${registro.nombreProveedor}`
+                            // +`${registro.referenciabeneficiario}${registro.referenciaempresa}`
+                            // +`${registro.monedaImporteAbonar}${registro.importeAbonar}`
+                            // +`${registro.flagValidarIDC}\n`;
                             contenido +=linea;
                                 console.log(linea);
                             });
